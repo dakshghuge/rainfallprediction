@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RainPredict | Rainfall Prediction System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">🌧️ AI Weather Intelligence</p>
+          <h1>RainPredict</h1>
+        </div>
+        <div class="header-badge">Live forecast engine</div>
+      </header>
+
+      <main class="dashboard-grid">
+        <section class="panel form-panel">
+          <div class="panel-heading">
+            <h2>Weather Inputs</h2>
+            <span>ML-powered rainfall insight</span>
+          </div>
+
+          <form id="predictionForm">
+            <div class="field-grid">
+              <label>
+                <span>Location</span>
+                <select id="location" name="location">
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Pune">Pune</option>
+                  <option value="Nashik">Nashik</option>
+                  <option value="Jalgaon">Jalgaon</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Bengaluru">Bengaluru</option>
+                  <option value="Ahmedabad">Ahmedabad</option>
+                  <option value="Kolkata">Kolkata</option>
+                  <option value="Hyderabad">Hyderabad</option>
+                  <option value="Chennai">Chennai</option>
+                  <option value="Jaipur">Jaipur</option>
+                  <option value="Lucknow">Lucknow</option>
+                  <option value="Kochi">Kochi</option>
+                  <option value="Goa">Goa</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Month</span>
+                <select id="month" name="month">
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Temperature (°C)</span>
+                <input id="temperature" name="temperature" type="number" min="-20" max="60" value="27" step="0.1" />
+              </label>
+
+              <label>
+                <span>Humidity (%)</span>
+                <input id="humidity" name="humidity" type="number" min="0" max="100" value="84" step="1" />
+              </label>
+
+              <label>
+                <span>Pressure (hPa)</span>
+                <input id="pressure" name="pressure" type="number" min="900" max="1100" value="1005" step="0.1" />
+              </label>
+
+              <label>
+                <span>Wind Speed (km/h)</span>
+                <input id="windSpeed" name="windSpeed" type="number" min="0" max="120" value="12" step="0.1" />
+              </label>
+
+              <label>
+                <span>Cloud Cover (%)</span>
+                <input id="cloudCover" name="cloudCover" type="number" min="0" max="100" value="78" step="1" />
+              </label>
+
+              <label>
+                <span>Previous Rainfall (mm)</span>
+                <input id="previousRainfall" name="previousRainfall" type="number" min="0" max="500" value="8" step="0.1" />
+              </label>
+            </div>
+
+            <button type="submit" class="predict-button">🔮 Predict Rainfall</button>
+          </form>
+        </section>
+
+        <section class="panel result-panel">
+          <div class="panel-heading">
+            <h2>Prediction</h2>
+          </div>
+
+          <div id="resultBadge" class="status-pill status-rain">🌧️ Rain likely</div>
+
+          <div class="prediction-visual">
+            <div id="predictionIcon" class="prediction-icon rain">☔</div>
+            <div class="prediction-text">
+              <h3 id="predictionTitle">RAIN EXPECTED</h3>
+              <p id="predictionSubtitle">Probability: 82%</p>
+            </div>
+          </div>
+
+          <div class="metrics">
+            <div class="metric-box">
+              <span>Probability</span>
+              <strong id="probabilityValue">82%</strong>
+            </div>
+            <div class="metric-box">
+              <span>Expected Rain</span>
+              <strong id="rainValue">24.5 mm</strong>
+            </div>
+            <div class="metric-box">
+              <span>Confidence</span>
+              <strong id="confidenceValue">64%</strong>
+            </div>
+          </div>
+
+          <div class="summary-card">
+            <p id="summaryText">Rain is likely due to strong humidity, cloud cover, and monsoon conditions.</p>
+          </div>
+        </section>
+      </main>
+
+      <section class="panel charts-panel">
+        <div class="panel-heading">
+          <h2>Dashboard Analytics</h2>
+          <span>Historical rainfall overview</span>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-card wide">
+            <h3>Monthly Rainfall (mm)</h3>
+            <canvas id="rainfallChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Temperature Trend</h3>
+            <canvas id="temperatureChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Humidity Trend</h3>
+            <canvas id="humidityChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel history-panel">
+        <div class="panel-heading">
+          <h2>Prediction History</h2>
+          <span>Recent forecast snapshots</span>
+        </div>
+
+        <div id="historyList" class="history-list"></div>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

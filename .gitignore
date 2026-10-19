@@ -1,0 +1,7 @@
+node_modules/
+.venv/
+.vercel/
+.env
+npm-debug.log*
+.DS_Store
+.vercel
